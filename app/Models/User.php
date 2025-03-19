@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\UserList;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -58,4 +59,9 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserInfo::class,'user_id','id');
     } 
+
+    public function userLists()
+    {
+        return $this->belongsToMany(UserList::class, 'user_list_item', 'user_id', 'list_id')->withTimeStamps(); 
+    }
 }
