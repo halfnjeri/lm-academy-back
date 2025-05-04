@@ -9,6 +9,7 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
+    protected $user;
     /**
      * Create a new AuthController instance.
      *
@@ -16,7 +17,7 @@ class AuthController extends Controller
      */
     public function __construct()
     {
-
+        $this->user = auth()->user();
     }
 
     /**
@@ -143,4 +144,13 @@ class AuthController extends Controller
             'expires_in' => auth()->factory()->getTTL() * 60
         ]);
     }
+
+    public function sendRegistrationInvite(Request $request){
+       // $user = auth()->user();
+       if ($this->user->hasRole('Admin')){
+            return response ()->json(['message'=> 'inside method','AuthUser'=>$this->user]);}
+        else {
+           return response()->json(['message' => 'You are not authorized to perform this action', 'user' => $this->user], 403);
+        } //user e qet mszh admin te dhenat e tij
+    } 
 }
